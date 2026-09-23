@@ -240,7 +240,7 @@ h1, h2, h3, h4 {
 /* Hero Section */
 .hero {
     min-height: 100vh;
-    background: url('assets/images/hero.jpg') no-repeat center center/cover;
+    background: url('hero.jpg') no-repeat center center/cover;
     position: relative;
     display: flex;
     justify-content: center;
