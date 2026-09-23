@@ -936,3 +936,155 @@ footer {
     --drone-accent: #b200ff;
     --drone-prop: #ff0055; /* Pink/Red props */
 }
+
+/* Page Header */
+.page-header {
+    min-height: 60vh;
+    background: url('hero.jpg') no-repeat center center/cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 0 50px;
+}
+
+/* Table Styles for Sponsorship */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 30px;
+    background: rgba(31, 40, 51, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(102, 252, 241, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sponsor-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.sponsor-table th, .sponsor-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sponsor-table th {
+    background-color: rgba(102, 252, 241, 0.1);
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sponsor-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.sponsor-table td i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sponsor-table .price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+}
+
+.sponsor-table .total {
+    font-size: 1.2rem;
+    color: #ffd700;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Drones: Smaller and out of the way */
+    .drone-decoration {
+        transform: scale(0.4) !important;
+        opacity: 0.2 !important;
+    }
+    .drone-1 { top: 5% !important; right: -20px !important; left: auto !important; }
+    .drone-2 { top: 20% !important; left: -20px !important; right: auto !important; }
+    .drone-3 { bottom: 5% !important; right: -20px !important; left: auto !important; }
+    .drone-4 { top: 40% !important; left: -20px !important; right: auto !important; }
+
+    /* Hide custom cursor on mobile (touch screens) */
+    .cursor-dot, .cursor-outline {
+        display: none !important;
+    }
+    body {
+        cursor: auto;
+    }
+
+    /* Hero adjustments */
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 40px;
+    }
+    .hero-image-block img {
+        width: 250px;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .hero-about-text {
+        font-size: 1rem;
+        padding: 20px;
+    }
+    .hero-about-text p {
+        line-height: 1.5;
+    }
+    .stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Timeline adjustments */
+    .timeline::before {
+        left: 20px;
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px !important;
+        padding-right: 0 !important;
+    }
+    .timeline-item:nth-child(even), 
+    .timeline-item:nth-child(odd) {
+        left: 0 !important;
+    }
+    .timeline-item:nth-child(even) .timeline-dot,
+    .timeline-item:nth-child(odd) .timeline-dot {
+        left: 11px !important;
+        right: auto !important;
+    }
+
+    /* General sections */
+    .section-title {
+        font-size: 2rem;
+    }
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Plan.html specific */
+    .strategy-block {
+        padding: 20px !important;
+    }
+    .strategy-block h3 {
+        font-size: 1.3rem !important;
+    }
+    .sponsor-table {
+        min-width: auto;
+    }
+    .sponsor-table th, .sponsor-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
