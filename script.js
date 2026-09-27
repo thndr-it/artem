@@ -96,19 +96,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Parallax Effect for Hero Section
 (function() {
     document.addEventListener("mousemove", parallax);
-    const heroElem = document.querySelector(".hero");
+    const interactiveTitle = document.querySelector('.interactive-title');
     
     function parallax(e) {
-        if (!heroElem) return;
         let _w = window.innerWidth / 2;
         let _h = window.innerHeight / 2;
         let _mouseX = e.clientX;
         let _mouseY = e.clientY;
         
-        let shiftX = 50 - (_mouseX - _w) * 0.02;
-        let shiftY = 50 - (_mouseY - _h) * 0.02;
-        
-        heroElem.style.backgroundPosition = `${shiftX}% ${shiftY}%`;
+        // 3D Tilt for Hero Content Title
+        if (interactiveTitle) {
+            const x = (_w - _mouseX) / 40;
+            const y = (_h - _mouseY) / 40;
+            interactiveTitle.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+        }
     }
 })();
 
@@ -147,7 +148,30 @@ const droneSvg = `
 `;
 
 document.querySelectorAll('.drone-decoration').forEach(el => {
-    el.innerHTML = droneSvg;
+    el.innerHTML = `<div class="drone-inner">${droneSvg}</div>`;
+    
+    el.addEventListener('mouseenter', () => {
+        const inner = el.querySelector('.drone-inner');
+        if (!inner.classList.contains('flying')) {
+            inner.classList.add('flying');
+            
+            // Randomize flight path coordinates and rotation (6 movements)
+            for (let i = 1; i <= 6; i++) {
+                const randomX = (Math.random() - 0.5) * 800; // -400px to 400px
+                const randomY = (Math.random() - 0.5) * 600;
+                inner.style.setProperty(`--fly-x${i}`, `${randomX}px`);
+                inner.style.setProperty(`--fly-y${i}`, `${randomY}px`);
+            }
+            
+            const randomRot = (Math.random() - 0.5) * 1440; // up to 4 spins
+            inner.style.setProperty('--fly-rot', `${randomRot}deg`);
+            
+            // Remove class after animation ends (2.5s)
+            setTimeout(() => {
+                inner.classList.remove('flying');
+            }, 2500);
+        }
+    });
 });
 
 // Custom Cursor Tracking
