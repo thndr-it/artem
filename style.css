@@ -754,6 +754,86 @@ footer {
 }
 
 /* ==========================================================================
+   ІНТЕРАКТИВНІ ДРОНИ (хаотичний політ + обертання пропелерів при наведенні)
+   ========================================================================== */
+
+.drone-decoration {
+    pointer-events: auto;        /* щоб спрацьовувало наведення */
+    cursor: pointer;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+
+    /* Кольори за замовчуванням (використовуються в SVG зі script.js) */
+    --drone-body: #11141a;
+    --drone-arms: #c5c6c7;
+    --drone-accent: #66fcf1;
+    --drone-prop: #b200ff;
+    --drone-prop-opacity: 0.8;
+}
+
+.drone-decoration:hover {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px var(--drone-accent));
+}
+
+/* У hero контент має z-index: 1, тому дрон піднімаємо вище, щоб ловив наведення */
+.hero .drone-decoration {
+    z-index: 2;
+}
+
+.drone-inner {
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
+
+/* Хаотичний політ (координати задаються випадково в script.js) */
+.drone-inner.flying {
+    animation: random-fly 2.5s ease-in-out forwards;
+}
+
+@keyframes random-fly {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    15%  { transform: translate(var(--fly-x1), var(--fly-y1)) rotate(calc(var(--fly-rot) * 0.2)) scale(1.2); }
+    30%  { transform: translate(var(--fly-x2), var(--fly-y2)) rotate(calc(var(--fly-rot) * 0.4)) scale(0.8); }
+    45%  { transform: translate(var(--fly-x3), var(--fly-y3)) rotate(calc(var(--fly-rot) * 0.6)) scale(1.3); }
+    60%  { transform: translate(var(--fly-x4), var(--fly-y4)) rotate(calc(var(--fly-rot) * 0.8)) scale(0.7); }
+    75%  { transform: translate(var(--fly-x5), var(--fly-y5)) rotate(calc(var(--fly-rot) * 1.0)) scale(1.4); }
+    90%  { transform: translate(var(--fly-x6), var(--fly-y6)) rotate(calc(var(--fly-rot) * 1.2)) scale(0.9); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+/* Пропелери */
+.drone-decoration .propeller {
+    transform-box: view-box;
+}
+
+.drone-decoration.spin-always .propeller,
+.drone-decoration:hover .propeller {
+    animation: spin-prop 0.15s linear infinite;
+}
+
+/* Під час польоту пропелери крутяться максимально швидко */
+.drone-inner.flying .propeller {
+    animation: spin-prop 0.05s linear infinite !important;
+}
+
+@keyframes spin-prop {
+    100% { transform: rotate(360deg); }
+}
+
+/* Позиції, розміри та кольори окремих дронів */
+.drone-1  { top: 5%;  right: 5%;  width: 140px; height: 140px; transform: rotate(15deg);  --drone-accent: #00d2ff; }
+.drone-2  { top: 40%; left: 2%;   width: 120px; height: 120px; transform: rotate(-25deg); --drone-accent: #ff0055; --drone-prop: #00d2ff; }
+.drone-3  { bottom: 5%; right: 8%; width: 150px; height: 150px; transform: rotate(45deg);  --drone-accent: #ffd700; }
+.drone-4  { top: 10%; right: 4%;  width: 150px; height: 150px; transform: rotate(-10deg); --drone-accent: #b200ff; --drone-prop: #ff0055; }
+.drone-5  { top: 18%; left: 3%;   width: 100px; height: 100px; transform: rotate(35deg);  --drone-accent: #66fcf1; }
+.drone-6  { top: 55%; right: 3%;  width: 120px; height: 120px; transform: rotate(-15deg); --drone-accent: #ff0055; }
+.drone-7  { top: 80%; left: 4%;   width: 90px;  height: 90px;  transform: rotate(70deg);  --drone-accent: #ffd700; }
+.drone-8  { top: 55%; right: 3%;  width: 110px; height: 110px; transform: rotate(-50deg); --drone-accent: #00d2ff; }
+.drone-9  { top: 30%; left: 3%;   width: 120px; height: 120px; transform: rotate(25deg);  --drone-accent: #66fcf1; --drone-prop: #b200ff; }
+.drone-10 { top: 75%; left: 4%;   width: 100px; height: 100px; transform: rotate(-35deg); --drone-accent: #ff0055; --drone-prop: #00d2ff; }
+
+/* ==========================================================================
    АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ ТА ПЛАНШЕТІВ (MEDIA QUERIES)
    ========================================================================== */
 
@@ -933,128 +1013,4 @@ footer {
     .sponsor-table {
         min-width: 450px; /* Дозволяє скролити таблицю горизонтально */
     }
-}
-
-/* Drone SVG Decorations */
-.drone-decoration {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    opacity: 0.7;
-    transition: all 0.3s ease;
-    z-index: 0;
-    pointer-events: auto;
-    cursor: pointer;
-    
-    /* Default Colors */
-    --drone-body: #11141a;
-    --drone-accent: #66fcf1;
-    --drone-prop: #b200ff; /* Purple propellers as requested */
-    --drone-prop-opacity: 0.8;
-}
-
-.drone-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease;
-}
-
-.drone-inner.flying {
-    animation: random-fly 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes random-fly {
-    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    15% { transform: translate(var(--fly-x1), var(--fly-y1)) rotate(calc(var(--fly-rot) * 0.2)) scale(1.2); }
-    30% { transform: translate(var(--fly-x2), var(--fly-y2)) rotate(calc(var(--fly-rot) * 0.4)) scale(0.8); }
-    45% { transform: translate(var(--fly-x3), var(--fly-y3)) rotate(calc(var(--fly-rot) * 0.6)) scale(1.3); }
-    60% { transform: translate(var(--fly-x4), var(--fly-y4)) rotate(calc(var(--fly-rot) * 0.8)) scale(0.7); }
-    75% { transform: translate(var(--fly-x5), var(--fly-y5)) rotate(calc(var(--fly-rot) * 1.0)) scale(1.4); }
-    90% { transform: translate(var(--fly-x6), var(--fly-y6)) rotate(calc(var(--fly-rot) * 1.2)) scale(0.9); }
-    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-}
-
-/* Hover-only spinning */
-.drone-decoration.spin-hover:hover .propeller {
-    animation: spin-prop 0.15s linear infinite;
-}
-
-/* Flying spinning (overrides others during flight) */
-.drone-inner.flying .propeller {
-    animation: spin-prop 0.05s linear infinite !important;
-}
-
-/* Constant spinning */
-.drone-decoration.spin-always .propeller {
-    animation: spin-prop 0.15s linear infinite;
-}
-
-@keyframes spin-prop {
-    100% { transform: rotate(360deg); }
-}
-
-/* Specific Positions & Customizations for Drones */
-.drone-1 { 
-    top: 5%; right: 5%; 
-    transform: rotate(15deg); 
-    width: 160px; height: 160px;
-    --drone-accent: #00d2ff;
-}
-.drone-2 { 
-    top: 40%; left: 2%; 
-    transform: rotate(-25deg); 
-    width: 130px; height: 130px;
-    --drone-accent: #ff0055;
-    --drone-prop: #00d2ff; /* Mix it up with blue props */
-}
-.drone-3 { 
-    bottom: 5%; right: 10%; 
-    transform: rotate(45deg); 
-    width: 180px; height: 180px;
-    --drone-accent: #ffd700;
-}
-.drone-4 { 
-    top: 15%; left: 75%; 
-    transform: rotate(-10deg); 
-    width: 200px; height: 200px;
-    --drone-accent: #b200ff;
-    --drone-prop: #ff0055; /* Pink/Red props */
-}
-.drone-5 { 
-    top: 25%; left: 10%; 
-    transform: rotate(35deg); 
-    width: 110px; height: 110px;
-    --drone-accent: #66fcf1;
-}
-.drone-6 { 
-    top: 60%; right: 15%; 
-    transform: rotate(-15deg); 
-    width: 140px; height: 140px;
-    --drone-accent: #ff0055;
-}
-.drone-7 { 
-    top: 80%; left: 20%; 
-    transform: rotate(70deg); 
-    width: 90px; height: 90px;
-    --drone-accent: #ffd700;
-}
-.drone-8 { 
-    top: 50%; right: 5%; 
-    transform: rotate(-50deg); 
-    width: 120px; height: 120px;
-    --drone-accent: #00d2ff;
-}
-.drone-9 { 
-    top: 30%; left: 5%; 
-    transform: rotate(25deg); 
-    width: 150px; height: 150px;
-    --drone-accent: #66fcf1;
-    --drone-prop: #b200ff;
-}
-.drone-10 { 
-    top: 70%; left: 8%; 
-    transform: rotate(-35deg); 
-    width: 110px; height: 110px;
-    --drone-accent: #ff0055;
-    --drone-prop: #00d2ff;
 }
