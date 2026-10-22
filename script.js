@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         loader.style.display = 'none';
     }, 500);
-});
+}); 
  
 // Mobile Navigation
 const hamburger = document.querySelector('.hamburger');
