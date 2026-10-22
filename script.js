@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
         loader.style.display = 'none';
     }, 500);
 });
-
+ 
 // Mobile Navigation
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
